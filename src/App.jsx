@@ -452,21 +452,23 @@ export default function App() {
     setError("");
     setSubmitting(true);
     try {
-      const formData = new FormData();
-      formData.append("access_key", "fbfaa537-ca4e-4066-8fc9-0286b7274731");
-      formData.append("_replyto", email);
-      Object.entries({ ...answers, _submitted: new Date().toLocaleString("he-IL") }).forEach(([k, v]) => {
-        formData.append(k, Array.isArray(v) ? v.join(", ") : String(v || ""));
-      });
-const res = await fetch("https://api.web3forms.com/submit", {
+      const payload = {
+        access_key: "fbfaa537-ca4e-4066-8fc9-0286b7274731",
+        email: email,
+        name: name,
+        ...Object.fromEntries(
+          Object.entries(answers).map(([k, v]) => [k, Array.isArray(v) ? v.join(", ") : String(v || "")])
+        ),
+        _submitted: new Date().toLocaleString("he-IL"),
+      };
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
       });
-  
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setError("שגיאה בשליחה: " + (data?.error || res.status));
+      const data = await res.json();
+      if (!data.success) {
+        setError("שגיאה בשליחה: " + (data?.message || "נסי שוב"));
         setSubmitting(false);
         return;
       }
@@ -543,7 +545,7 @@ const res = await fetch("https://api.web3forms.com/submit", {
         onClick={handleSubmit}
         disabled={submitting}
       >
-        {submitting ? "שולחת..." : "שליחת השאלון 💜"}
+        {submitting ? "שולח..." : "שליחת השאלון 💜"}
       </button>
     </div>
   );
