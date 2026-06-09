@@ -452,12 +452,27 @@ export default function App() {
     setError("");
     setSubmitting(true);
     try {
-      await fetch("https://formspree.io/f/mlgknpoz", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ ...answers, _submitted: new Date().toLocaleString("he-IL") }),
+      const formData = new FormData();
+      formData.append("_replyto", email);
+      Object.entries({ ...answers, _submitted: new Date().toLocaleString("he-IL") }).forEach(([k, v]) => {
+        formData.append(k, Array.isArray(v) ? v.join(", ") : String(v || ""));
       });
-    } catch (_) {}
+      const res = await fetch("https://formspree.io/f/mlgknpoz", {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError("שגיאה בשליחה: " + (data?.error || res.status));
+        setSubmitting(false);
+        return;
+      }
+    } catch (e) {
+      setError("שגיאת רשת, נסי שוב.");
+      setSubmitting(false);
+      return;
+    }
     setSubmitting(false);
     setSubmitted(true);
   };
