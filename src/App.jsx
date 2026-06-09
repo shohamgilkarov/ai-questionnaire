@@ -452,7 +452,7 @@ export default function App() {
     setError("");
     setSubmitting(true);
     try {
-      await fetch("https://formspree.io/f/xpwzqkqd", {
+      await fetch("https://formspree.io/f/mlgknpoz", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ ...answers, _submitted: new Date().toLocaleString("he-IL") }),
