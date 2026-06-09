@@ -453,14 +453,16 @@ export default function App() {
     setSubmitting(true);
     try {
       const formData = new FormData();
+      formData.append("access_key", "fbfaa537-ca4e-4066-8fc9-0286b7274731");
       formData.append("_replyto", email);
       Object.entries({ ...answers, _submitted: new Date().toLocaleString("he-IL") }).forEach(([k, v]) => {
         formData.append(k, Array.isArray(v) ? v.join(", ") : String(v || ""));
       });
-      const res = await fetch("https://formspree.io/f/mlgknpoz", {
-        method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
+      const res = await fetch("https://api.web3forms.com/submit", {
+  method: "POST",
+  body: formData,
+  headers: { Accept: "application/json" },
+});
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
