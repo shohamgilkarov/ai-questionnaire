@@ -453,7 +453,6 @@ export default function App() {
     setSubmitting(true);
     try {
       const payload = {
-        access_key: "fbfaa537-ca4e-4066-8fc9-0286b7274731",
         email: email,
         name: name,
         ...Object.fromEntries(
@@ -461,14 +460,14 @@ export default function App() {
         ),
         _submitted: new Date().toLocaleString("he-IL"),
       };
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("https://formspree.io/f/xgoblgnv", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!data.success) {
-        setError("שגיאה בשליחה: " + (data?.message || "נסי שוב"));
+      if (!res.ok) {
+        setError("שגיאה בשליחה: " + (data?.error || "נסי שוב"));
         setSubmitting(false);
         return;
       }
