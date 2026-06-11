@@ -458,7 +458,7 @@ export default function App() {
         .join("\n");
       const templateParams = {
         name: name,
-        email: email,
+        user_email: email,
         title: "שאלון הכנה להפקה",
         time: new Date().toLocaleString("he-IL"),
         message: message,
