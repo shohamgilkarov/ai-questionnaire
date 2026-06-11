@@ -453,13 +453,15 @@ export default function App() {
     setError("");
     setSubmitting(true);
     try {
+      const message = Object.entries(answers)
+        .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(", ") : String(v || "")}`)
+        .join("\n");
       const templateParams = {
-        email: email,
         name: name,
-        ...Object.fromEntries(
-          Object.entries(answers).map(([k, v]) => [k, Array.isArray(v) ? v.join(", ") : String(v || "")])
-        ),
-        submitted: new Date().toLocaleString("he-IL"),
+        email: email,
+        title: "שאלון הכנה להפקה",
+        time: new Date().toLocaleString("he-IL"),
+        message: message,
       };
       await emailjs.send(
         "service_o1kaq4u",
