@@ -453,9 +453,14 @@ export default function App() {
     setError("");
     setSubmitting(true);
     try {
-      const message = Object.entries(answers)
-        .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(", ") : String(v || "")}`)
-        .join("\n");
+      const allQuestions = SECTIONS.flatMap((s) => s.questions);
+      const message = allQuestions
+        .filter((q) => q.id !== "email" && answers[q.id] !== undefined)
+        .map((q) => {
+          const v = answers[q.id];
+          return `${q.label}\n${Array.isArray(v) ? v.join(", ") : String(v || "")}`;
+        })
+        .join("\n\n");
       const templateParams = {
         name: name,
         user_email: email,
