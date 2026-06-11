@@ -1,6 +1,8 @@
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 
+emailjs.init({ publicKey: "gu3MOqMfp1tFkuCu7" });
+
 const SECTIONS = [
   {
     id: "personal",
@@ -468,12 +470,7 @@ export default function App() {
         time: new Date().toLocaleString("he-IL"),
         message: message,
       };
-      await emailjs.send(
-        "service_o1kaq4u",
-        "template_5bxldhc",
-        templateParams,
-        "gu3MOqMfp1tFkuCu7"
-      );
+      await emailjs.send("service_o1kaq4u", "template_5bxldhc", templateParams);
     } catch (e) {
       setError("שגיאת רשת, נסי שוב.");
       setSubmitting(false);
