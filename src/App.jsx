@@ -467,7 +467,8 @@ export default function App() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError("שגיאה בשליחה: " + (data?.error || "נסי שוב"));
+        const details = data?.errors?.map(e => e.message).join(", ") || data?.error || "נסי שוב";
+        setError("שגיאה בשליחה: " + details);
         setSubmitting(false);
         return;
       }
