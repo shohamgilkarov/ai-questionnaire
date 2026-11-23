@@ -1,7 +1,4 @@
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
-
-emailjs.init({ publicKey: "gu3MOqMfp1tFkuCu7" });
 
 const SECTIONS = [
   {
@@ -456,24 +453,26 @@ export default function App() {
     setSubmitting(true);
     try {
       const allQuestions = SECTIONS.flatMap((s) => s.questions);
-      const message = allQuestions
-        .filter((q) => q.id !== "email" && answers[q.id] !== undefined)
-        .map((q) => {
+      const payload = { name, email };
+      allQuestions.forEach((q) => {
+        if (answers[q.id] !== undefined) {
           const v = answers[q.id];
-          return `${q.label}\n${Array.isArray(v) ? v.join(", ") : String(v || "")}`;
-        })
-        .join("\n\n");
-      const templateParams = {
-        name: name,
-        user_email: email,
-        title: "שאלון הכנה להפקה",
-        time: new Date().toLocaleString("he-IL"),
-        message: message,
-      };
-      await emailjs.send("service_o1kaq4u", "template_5bxldhc", templateParams);
+          payload[q.label] = Array.isArray(v) ? v.join(", ") : String(v || "");
+        }
+      });
+      const res = await fetch("https://formspree.io/f/xgoblgnv", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError("שגיאה בשליחה: " + (data?.error || "נסי שוב"));
+        setSubmitting(false);
+        return;
+      }
     } catch (e) {
-      const msg = e?.text || e?.message || JSON.stringify(e) || "שגיאה לא ידועה";
-      setError("שגיאה: " + msg);
+      setError("שגיאת רשת, נסי שוב.");
       setSubmitting(false);
       return;
     }
