@@ -453,17 +453,19 @@ export default function App() {
     setSubmitting(true);
     try {
       const allQuestions = SECTIONS.flatMap((s) => s.questions);
-      const payload = { name, email };
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
       allQuestions.forEach((q) => {
         if (answers[q.id] !== undefined) {
           const v = answers[q.id];
-          payload[q.label] = Array.isArray(v) ? v.join(", ") : String(v || "");
+          formData.append(q.label, Array.isArray(v) ? v.join(", ") : String(v || ""));
         }
       });
       const res = await fetch("https://formspree.io/f/xgoblgnv", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(payload),
+        headers: { Accept: "application/json" },
+        body: formData,
       });
       const data = await res.json();
       if (!res.ok) {
