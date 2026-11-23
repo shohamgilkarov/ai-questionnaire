@@ -472,7 +472,8 @@ export default function App() {
       };
       await emailjs.send("service_o1kaq4u", "template_5bxldhc", templateParams);
     } catch (e) {
-      setError("שגיאת רשת, נסי שוב.");
+      const msg = e?.text || e?.message || JSON.stringify(e) || "שגיאה לא ידועה";
+      setError("שגיאה: " + msg);
       setSubmitting(false);
       return;
     }
