@@ -146,21 +146,34 @@ const st = {
     padding: "2.5rem 1.5rem 2.25rem",
     textAlign: "center",
   },
-  heroEye: {
+  logoWrap: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    marginBottom: "1rem",
+  },
+  logoIcon: {
+    width: 38,
+    height: 38,
+  },
+  logoText: {
     fontFamily: DISPLAY,
-    fontWeight: 700,
-    fontSize: 13,
-    letterSpacing: "0.1em",
-    textTransform: "uppercase",
-    opacity: 0.85,
-    marginBottom: "0.4rem",
+    fontWeight: 900,
+    fontSize: 34,
+    letterSpacing: 3,
+    background: "linear-gradient(135deg, #FFFFFF 0%, #CDBEFF 100%)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+    lineHeight: 1,
   },
   heroTitle: {
     fontFamily: DISPLAY,
     fontWeight: 800,
-    fontSize: "clamp(26px, 6vw, 38px)",
-    margin: "0 0 0.3rem",
-    lineHeight: 1.15,
+    fontSize: "clamp(22px, 5vw, 30px)",
+    margin: "0 0 0.4rem",
+    lineHeight: 1.2,
   },
   heroSub: {
     fontSize: "1rem",
@@ -499,9 +512,17 @@ export default function App() {
   return (
     <div style={st.page}>
       <div style={st.hero}>
-        <p style={st.heroEye}>GROW AI · by Shoham</p>
-        <h1 style={st.heroTitle}>שאלון היכרות</h1>
-        <p style={st.heroSub}>תוכן ויזואלי עם AI</p>
+        <div style={st.logoWrap}>
+          <svg style={st.logoIcon} viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="19" cy="19" r="18" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+            <path d="M26 19a7 7 0 1 1-7-7v7h7z" fill="white" opacity="0.9" />
+            <path d="M19 12v7h7" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+            <path d="M19 7l1.2 2.4L23 8.5l-1.5 2.5 2.5 1-2.5 1 1.5 2.5-2.8-1.3L19 17l-1.2-2.8-2.8 1.3 1.5-2.5-2.5-1 2.5-1-1.5-2.5 2.8 1 1.2-2.5z" fill="white" opacity="0.8" />
+          </svg>
+          <span style={st.logoText}>GROW</span>
+        </div>
+        <h1 style={st.heroTitle}>שאלון התאמה</h1>
+        <p style={st.heroSub}>לקורס בינה מלאכותית לבעלות עסקים</p>
       </div>
 
       <div style={st.wrap}>
