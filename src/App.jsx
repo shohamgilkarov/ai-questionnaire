@@ -513,12 +513,6 @@ export default function App() {
     <div style={st.page}>
       <div style={st.hero}>
         <div style={st.logoWrap}>
-          <svg style={st.logoIcon} viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="19" cy="19" r="18" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
-            <path d="M26 19a7 7 0 1 1-7-7v7h7z" fill="white" opacity="0.9" />
-            <path d="M19 12v7h7" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
-            <path d="M19 7l1.2 2.4L23 8.5l-1.5 2.5 2.5 1-2.5 1 1.5 2.5-2.8-1.3L19 17l-1.2-2.8-2.8 1.3 1.5-2.5-2.5-1 2.5-1-1.5-2.5 2.8 1 1.2-2.5z" fill="white" opacity="0.8" />
-          </svg>
           <span style={st.logoText}>GROW</span>
         </div>
         <h1 style={st.heroTitle}>שאלון התאמה</h1>
